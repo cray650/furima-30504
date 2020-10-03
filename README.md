@@ -6,34 +6,38 @@
 
 | Column           | Type   | Options  |
 | ---------------- | ------ | ---------|
-| nickname         | string | NOT NULL |
-| email            | string | NOT NULL |
-| password         | string | NOT NULL |
-| family_name      | string | NOT NULL |
-| first_name       | string | NOT NULL |
-| family_name_kana | string | NOT NULL |
-| first_name_kana  | string | NOT NULL |
+| nickname         | string | null: false |
+| email            | string | null: false |
+| password         | string | null: false |
+| family_name      | string | null: false |
+| first_name       | string | null: false |
+| family_name_kana | string | null: false |
+| first_name_kana  | string | null: false |
+| birthday         | string | null: false |
 
 ### Association
 
 - has_many :items
-- has_one  :orders
-- has_one  :addresses
-
+- has_many  :orders
 
 ## items テーブル
 
-| Column      | Type       | Options                     |
-| ----------  | ---------- | --------------------------- |
-| product     | string     | NOT NULL                    |
-| description | text       | NOT NULL                    |
-| price       | string     | NOT NULL                    |
-| user_id     | references | NOT NULL, foreign_key: true |
+| Column                              | Type       | Options                     |
+| ----------------------------------- | ---------- | --------------------------- |
+| product                             | string     | null: false                 |
+| description                         | text       | null: false                 |
+| price                               | string     | null: false                 |                   
+| scheduled_delivery_id(acitve_hash)  | integer    | null: false                 |
+| shipping_fee_status_id(acitve_hash) | integer    | null: false                 |
+| prefecture_id(acitve_hash)          | integer    | null: false                 |
+| sales_status_id(acitve_hash)        | integer    | null: false                 |
+| category_id(acitve_hash)            | integer    | null: false                 |
+| user_id                             | references | NOT NULL, foreign_key: true |
 
 ### Association
 
-- has_one    :orders
-- belongs_to :users
+- has_one    :order
+- belongs_to :user
 
 ## orders テーブル
 
@@ -44,21 +48,23 @@
 
 ### Association
 
-- belongs_to :users
-- belongs_to :items
+- belongs_to :user
+- belongs_to :item
+- has_one  :address
 
 ## addresses テーブル
 
-| Column      | Type    | Options  |
-| ----------  | ------  | -------- |
-| postal_code | string  | NOT NULL |
-| city        | string  | NOT NULL |
-| address     | string  | NOT NULL |
-| building    | string  | NOT NULL |
-| phone       | string  | NOT NULL |
+| Column                     | Type    | Options     |
+| -------------------------- | ------  | ----------- |
+| postal_code                | string  | null: false |
+| prefecture_id(acitve_hash) | integer | null: false |
+| city                       | string  | null: false |
+| address                    | string  | null: false |
+| building                   | string  |             |
+| phone                      | string  | null: false |
 
 ### Association
 
-- belongs_to :users
+- belongs_to :user
 
 
