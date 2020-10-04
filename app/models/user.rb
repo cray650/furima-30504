@@ -6,12 +6,14 @@ class User < ApplicationRecord
   has_many :items
   has_many :orders
 
+  VALID_NAME_REGEX = /\A[ぁ-んァ-ン一-龥]/
+  VALID_NAME_KANA_REGEX = /\A[ァ-ヶー－]+\z/
   with_options presence: true do
     validates :nickname
-    validates :first_name, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "is invalid. Input full-width characters." }
-    validates :last_name, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "is invalid. Input full-width characters." }
-    validates :first_name_kana,  format: { with: /\A[ァ-ヶー－]+\z/, message: "is invalid. Input full-width katakana characters." } 
-    validates :last_name_kana, format: { with: /\A[ァ-ヶー－]+\z/, message: "is invalid. Input full-width katakana characters." }
+    validates :first_name, format: { with: VALID_NAME_REGEX,  message: "is invalid. Input full-width characters." }
+    validates :last_name, format: { with: VALID_NAME_REGEX, message: "is invalid. Input full-width characters." }
+    validates :first_name_kana,  format: { with: VALID_NAME_KANA_REGEX, message: "is invalid. Input full-width katakana characters." } 
+    validates :last_name_kana, format: { with: VALID_NAME_KANA_REGEX, message: "is invalid. Input full-width katakana characters." }
     validates :birthday
   end
   password = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze

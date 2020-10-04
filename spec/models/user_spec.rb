@@ -15,7 +15,6 @@ describe User do
         expect(@user).to be_valid
       end
     end
-
     context '新規登録がうまくいかないとき' do
       it 'nicknameが空だと登録できない' do
         @user.nickname = ''
@@ -32,6 +31,12 @@ describe User do
         @user.valid?
         expect(@user.errors.full_messages).to include("Email is invalid")
       end
+      it 'emailは一意性でなければ登録できない' do
+        @user.save
+        another_user = FactoryBot.build(:user, email: @user.email)
+        another_user.valid?
+        expect(another_user.errors.full_messages).to include("Email has already been taken")
+      end
       it 'passwordが空では登録できない' do
         @user.password = ''
         @user.password_confirmation = ''
@@ -43,6 +48,12 @@ describe User do
         @user.password_confirmation = '1111a'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
+      end
+      it 'passwordは半角英数字混合でないと登録できない' do
+        @user.password = '000000'
+        @user.password_confirmation = '000000'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password には英字と数字の両方を含めて設定してください")
       end
       it 'passwordが存在してもpassword_confirmationが空では登録できない' do
         @user.password = '1111a'
