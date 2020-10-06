@@ -36,33 +36,43 @@ describe Item do
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not a number')
       end
+      it 'priceが300以下であれば保存できない' do
+        @item.price = '299'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price must be greater than or equal to 300 ')
+      end
+      it 'priceが9999999以上であれば保存できない' do
+        @item.price = '10000000'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
+      end
       it 'imageが空であれば保存できない' do
         @item.image = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Image can't be blank")
       end
       it 'shceduled_delivery_idが1であれば保存できない' do
-        @item.scheduled_delivery_id = '1'
+        @item.scheduled_delivery_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Scheduled delivery must be other than 1')
       end
       it 'shipping_fee_status_idが1であれば保存できない' do
-        @item.shipping_fee_status_id = '1'
+        @item.shipping_fee_status_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping fee status must be other than 1')
       end
       it 'prefecture_idが１であれば保存できない' do
-        @item.prefecture_id = '1'
+        @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Prefecture must be other than 1')
       end
       it 'sales_status_idが1であれば保存できない' do
-        @item.sales_status_id = '1'
+        @item.sales_status_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Sales status must be other than 1')
       end
       it 'category_idが1であれば保存できない' do
-        @item.category_id = '1'
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Category must be other than 1')
       end
