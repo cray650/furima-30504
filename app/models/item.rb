@@ -11,9 +11,10 @@ class Item < ApplicationRecord
 
 
   with_options presence: true do
-    validates :name                   
+    validates :name
     validates :description
-    validates :price,                  format: { with: /\A[0-9]+\z/, message: "Price Half-width number" }
+    validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
+    , format: { with: /\A[0-9]+\z/, message: "Price is not a number" } 
     validates :image
     validates :scheduled_delivery_id,  numericality: {other_than: 1 }
     validates :shipping_fee_status_id, numericality: {other_than: 1 }
