@@ -1,4 +1,5 @@
 window.addEventListener('load', function(){
+  console.log("test")
   const price = document.getElementById("item-price")
   const fee = document.getElementById("add-tax-price")
   const margin = document.getElementById("profit")

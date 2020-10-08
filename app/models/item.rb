@@ -5,6 +5,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :SalesStatus
   belongs_to_active_hash :ScheduledDelivery
   belongs_to_active_hash :ShippingFeeStatus
+  
   has_one :order
   belongs_to :user
   has_one_attached :image
