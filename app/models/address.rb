@@ -9,7 +9,6 @@ class Address < ApplicationRecord
     validates :prefecture_name_id, numericality: { other_than: 1 }
     validates :city
     validates :address
-    validates :building
     validates :phone
   end
 end
