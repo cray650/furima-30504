@@ -1,10 +1,15 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
-  before_action :item_params, only: [:index]
+  before_action :set_item, only: [:index, :create]
+  before_action :move_to_index, only: [:index]
 
   def index
-    @order = OrderAddress.new
-    @user = current_user.id
+    if Order.exists?(item_id: @item.id) || current_user.id == @item.user_id
+      redirect_to root_path
+     else
+      @order = OrderAddress.new
+      @user = current_user.id
+     end
   end
   
   def create
@@ -23,8 +28,14 @@ class OrdersController < ApplicationController
     params.permit(:token,:authenticity_token,:postal_code, :prefecture_name_id, :city, :address, :building, :phone, :item_id).merge(token: params[:token], user_id: current_user.id)
   end
 
-  def item_params
+  def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def move_to_index
+    if current_user.id == @item.user_id
+      redirect_to root_path
+    end
   end
 
   def pay_item
@@ -36,4 +47,6 @@ class OrdersController < ApplicationController
         currency: 'jpy'               
       )
   end
+
+
 end

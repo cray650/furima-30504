@@ -11,7 +11,7 @@ class OrderAddress
     validates :prefecture_name_id, numericality: { other_than: 1 }
     validates :city
     validates :address
-    validates :phone #format: { with: /^\d{10}$/, message: '11桁以内で入力してください'}
+    validates :phone, format: { with: /\A\d{11}\z/, message: '11桁以内で入力してください'}
   end
 
   def save
