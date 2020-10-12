@@ -72,5 +72,10 @@ describe OrderAddress do
       @order.valid?
       expect(@order.errors.full_messages).to include("Phone can't be blank")
     end
+    it 'phoneが11桁未満であれば登録できない' do
+      @order.phone = '0901234567'
+      @order.valid?
+      expect(@order.errors.full_messages).to include("Phone 11桁以内で入力してください")
+    end
   end
 end
