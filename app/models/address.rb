@@ -1,7 +1,7 @@
 class Address < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :PrefectureName
-  
+
   belongs_to :order
 
   with_options presence: true do
