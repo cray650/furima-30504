@@ -8,7 +8,6 @@ class OrdersController < ApplicationController
       redirect_to root_path
     else
       @order = OrderAddress.new
-      @user = current_user.id
     end
   end
 
